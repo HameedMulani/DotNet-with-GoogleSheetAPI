@@ -2,20 +2,20 @@
 using Google.Apis.Sheets.v4;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Personal_Information.Dao;
 using Personal_Information.Model;
 using static Google.Apis.Sheets.v4.SpreadsheetsResource.ValuesResource;
-using Personal_Information.Dao;
 
 namespace Personal_Information.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ItemsController : ControllerBase
+    public class UsersController : ControllerBase
     {
         const string SPREADSHEET_ID = "1_l9vn8zPfOWeLlOXaLAaVq7Hm3khrsaDkwQj76SCCzU";
         const string SHEET_NAME = "Items";
         SpreadsheetsResource.ValuesResource _googleSheetValues;
-        public ItemsController(GoogleSheetsHelper googleSheetsHelper)
+        public UsersController(GoogleSheetsHelper googleSheetsHelper)
         {
             _googleSheetValues = googleSheetsHelper.Service.Spreadsheets.Values;
         }
@@ -31,7 +31,7 @@ namespace Personal_Information.Controllers
         [HttpGet("{rowId}")]
         public IActionResult Get(int rowId)
         {
-            var range = $"{SHEET_NAME}!A{rowId+1}:K{rowId+1}";
+            var range = $"{SHEET_NAME}!A{rowId + 1}:K{rowId + 1}";
             var request = _googleSheetValues.Get(SPREADSHEET_ID, range);
             var response = request.Execute();
             var values = response.Values;
@@ -53,7 +53,7 @@ namespace Personal_Information.Controllers
         [HttpPut("{rowId}")]
         public IActionResult Put(int rowId, Item item)
         {
-            var range = $"{SHEET_NAME}!A{rowId+1}:K{rowId+1}";
+            var range = $"{SHEET_NAME}!A{rowId + 1}:K{rowId + 1}";
             var valueRange = new ValueRange
             {
                 Values = ItemsMapper.MapToRangeData(item)
@@ -67,7 +67,7 @@ namespace Personal_Information.Controllers
         [HttpDelete("{rowId}")]
         public IActionResult Delete(int rowId)
         {
-            var range = $"{SHEET_NAME}!A{rowId+1}:K{rowId+1}";
+            var range = $"{SHEET_NAME}!A{rowId + 1}:K{rowId + 1}";
             var requestBody = new ClearValuesRequest();
             var deleteRequest = _googleSheetValues.Clear(requestBody, SPREADSHEET_ID, range);
             deleteRequest.Execute();
