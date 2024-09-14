@@ -5,6 +5,11 @@ obj/
 # Ignore user-specific files
 *.user
 *.suo
+client_secrets.json
 
 # Ignore secrets folder
 secret/
+
+# Ignore Visual Studio temporary files, build results, and
+# user-specific files
+.vs/
